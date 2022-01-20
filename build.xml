@@ -8,16 +8,16 @@
 	<target name = "jar">
 		<antcall target = "build"/>
 		<mkdir dir = "build/jar"/>
-		<jar destfile = "build/jar/Main.jar" basedir = "build/classes">
+		<jar destfile = "build/jar/Calculadora.jar" basedir = "build/classes">
 			<manifest>
 				<attribute name="DependencyFinder" value="main" />
-				<attribute name="Main-Class" value="Main" />
+				<attribute name="Main-Class" value="Calculadora" />
 			</manifest>
 		</jar>
 	</target>
 
 	<target name="run">
-		<java jar="build/jar/Main.jar" fork="true"/>
+		<java jar="build/jar/Calculadora.jar" fork="true"/>
 	</target>
 
 	<target name="clean">
