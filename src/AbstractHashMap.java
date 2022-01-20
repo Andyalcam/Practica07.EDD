@@ -101,33 +101,4 @@ public class AbstractHashMap<K,V> implements Map<K,V>{
 		int hashCode = (int) (Math.abs(k.hashCode() * scale + shift) % prime);
 		return hashCode % capacity;
 	}
-
-	public static void main(String[] args) {
-		Map<String, String> map = new AbstractHashMap<>(97);
-		
-		// Put
-		map.put("Cadena", "Cadena");
-		map.put("Hola", "Hola");
-		map.put("Mundo", "Mundo");
-		map.put("Fanatica", "Fanatica");
-		map.put("Parangaricutirimicuaro", "oliwis");
-		map.put("Spiderman", "Spiderman");
-		map.put("De lo sensual", "De lo sensual");
-
-		String k1 = "Parangaricutirimicuaro";
-		String k2 = "No existe esta cadena";
-		String k3 = "Spiderman";
-
-		// Remove
-		map.remove(k3);
-
-		// Get
-		System.out.println("Obtenemos el valor asociado a "+k1+": "+map.get(k1));
-		System.out.println("Obtenemos el valor asociado a "+k2+": "+map.get(k2));
-		System.out.println("Obtenemos el valor asociado a "+k3+": "+map.get(k3));
-		System.out.println("Size: " + map.size());
-		System.out.println("Es vacio: " + map.isEmpty());
-
-	}
-
 }
