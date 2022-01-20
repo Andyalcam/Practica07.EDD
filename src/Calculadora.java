@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.io.FileNotFoundException;
@@ -33,14 +35,58 @@ public class Calculadora {
         }
 	}
 
-	public Double calcular(String elem1, String elem2){
-		Double peso1 = map.get(elem1).getPeso();
+    public String[] mol(String elemento){
+        String[] arrAux = new String[2];
+        if(elemento.length() == 1){
+            arrAux[0] = elemento;
+            arrAux[1] = "1";
+        }else{
+            byte[] bytes = elemento.getBytes(StandardCharsets.US_ASCII);
+            for (int i = 1; i < bytes.length; i++) {
+                if(bytes[i] > 96 && bytes[i] < 123){
+                    //Es una letra
+                    if(i == elemento.length()-1) { //Por si es un elemento de 2 o 3 letras y lleva solamente 1 molecula
+                        arrAux[0] = elemento.substring(0,i+1);
+                        arrAux[1] = "1";
+                    }
+                }else if(bytes[i] > 48 && bytes[i] < 58){ //Para saber cuantas moleculas tiene un elemento
+                    //Empiezan los numeros
+                    arrAux[0] = elemento.substring(0,i);
+                    arrAux[1] = elemento.substring(i);
+                    break;
+                }else{
+                    throw new IllegalArgumentException("Ingresa lo que se te pide");
+                }
+
+            }
+        }
+        return arrAux;
+    }
+
+	public Double calcular(String formula){
+
+        String[] elementos = formula.split(",");
+
+        //System.out.println("Elementos de la formula: " + Arrays.toString(elementos));
+
+        Double pesoTotal = 0.0;
+        String[] aux = new String[2];
+        for (String elemento : elementos) {
+            aux = mol(elemento);
+            int moleculas = Integer.parseInt(aux[1]);
+            Double peso = map.get(aux[0]).getPeso();
+            pesoTotal += peso*moleculas;
+        }
+
+        return pesoTotal;
+
+		/*Double peso1 = map.get(elem1).getPeso();
 		Double peso2 = map.get(elem2).getPeso();
 
 		//System.out.println("peso1: "+peso1+" peso2: "+peso2);
 
 		Double total = peso1 + peso2;
-		return total;
+		return total;*/
 	}
 
 
@@ -56,9 +102,11 @@ public class Calculadora {
 
         System.out.println("*** BIENVENIDO ***");
 
-        System.out.println(calculadora.calcular("H","Li"));
+        //calculadora.calcular("H2,O");
 
-        while (excep) {
+        System.out.println(calculadora.calcular("Li10,H2"));
+
+        /*while (excep) {
             try {
                 System.out.println("\n\t\t*** Menu ***");
                 System.out.println("--------------------------------------------");
@@ -75,8 +123,7 @@ public class Calculadora {
                         while (repe) {
                             try {
                                 tupla = on.nextLine().trim();
-                                System.out.println(tupla);
-
+                                calculadora.calcular(tupla);
                                 repe = false;
                             } catch (Exception e) {
                                 System.out.println("\t" + e + " Intentalo de nuevo. Sigue el ejemplo :)");
@@ -96,6 +143,6 @@ public class Calculadora {
                 in.next();
                 excep = true;
             }
-        }
+        }*/
 	}	
 }
